@@ -6,11 +6,13 @@ import com.onarandombox.MultiverseCore.api.MVWorldManager;
 import com.onarandombox.MultiverseCore.api.MultiverseWorld;
 import com.onarandombox.MultiverseNetherPortals.commands.NetherPortalCommand;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
 
 import java.util.List;
+import java.util.logging.Level;
 
 public class HomesCommand extends NetherPortalCommand {
 	private NetherPortalHomes netherPortalHomes;
@@ -28,7 +30,6 @@ public class HomesCommand extends NetherPortalCommand {
 				"This will set a world's nether portals to send players to their home. It will override the world's link.",
 				PermissionDefault.OP);
 
-
 		netherPortalHomes = plugin;
 	}
 
@@ -43,21 +44,34 @@ public class HomesCommand extends NetherPortalCommand {
 				return;
 			}
 			// Check for world registration with Multiverse
-			String worldName = args.get(0);
-			MultiverseWorld mvWorld = plugin.getCore().getMVWorldManager().getMVWorld(worldName);
-			if (mvWorld == null) {
-				this.plugin.getCore().showNotMVWorldMessage(sender, worldName);
-				return;
-			}
-			boolean val = netherPortalHomes.toggleUseHomesFor(worldName);
-			sender.sendMessage(ChatColor.RED + "NOTE: " + ChatColor.WHITE + "Nether portals in " + mvWorld.getColoredWorldString() + " will "
-					+ (val ? "now" : "no longer")
-					+ " send players to their home."
-			);
+			toggleUseHomes(sender, args.get(0));
 			return;
 		}
 		// Command issued in-game
-		sender.sendMessage(ChatColor.AQUA + "You are a player.");
-		sender.sendMessage(ChatColor.AQUA + "Provided " + args.size() + " arg(s).");
+		Player player = (Player) sender;
+		String world = args.size() < 1 ? player.getWorld().getName() : args.get(0);
+		toggleUseHomes(sender, world);
+		plugin.log(Level.INFO, getPlayerLogMessage(player, world));
+	}
+
+	private void toggleUseHomes(CommandSender sender, String worldName) {
+		MultiverseWorld mvWorld = plugin.getCore().getMVWorldManager().getMVWorld(worldName);
+		if (mvWorld == null) {
+			this.plugin.getCore().showNotMVWorldMessage(sender, worldName);
+			return;
+		}
+		sender.sendMessage(getToggleMessage(mvWorld, netherPortalHomes.toggleUseHomesFor(worldName)));
+	}
+
+	private String getToggleMessage(MultiverseWorld mvWorld, boolean val) {
+		return ChatColor.RED + "NOTE: " + ChatColor.WHITE + "Nether portals in " + mvWorld.getColoredWorldString() + " will "
+				+ (val ? "now" : "no longer")
+				+ " send players to their home.";
+	}
+
+	private String getPlayerLogMessage(Player player, String world) {
+		return player.getName() + " "
+				+ (netherPortalHomes.getUseHomesFor(world) ? "ENABLED" : "DISABLED")
+				+ " auto-home for Nether Portals in " + world;
 	}
 }
