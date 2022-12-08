@@ -21,24 +21,8 @@ public class NetherPortalHomes extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		mvNetherPortals = (MultiverseNetherPortals) getServer().getPluginManager().getPlugin("Multiverse-NetherPortals");
-		if (mvNetherPortals == null)
-		{
-			getLogger().warning("Multiverse-NetherPortals not found.");
-		}
-		essentials = (Essentials) getServer().getPluginManager().getPlugin("Essentials");
-		if (essentials == null)
-		{
-			getLogger().warning("Essentials not found.");
-		}
-
-		commandHandler = mvNetherPortals.getCore().getCommandHandler();
-		commandHandler.registerCommand(new HomesCommand(this));
-		for (com.onarandombox.commandhandler.Command c : commandHandler.getAllCommands()) {
-			if (c instanceof HelpCommand) {
-				c.addKey("mvnp");
-			}
-		}
+		setDependencies();
+		registerCommands();
 	}
 
 	@Override
@@ -60,5 +44,26 @@ public class NetherPortalHomes extends JavaPlugin {
 
 	public Essentials getEssentials() {
 		return essentials;
+	}
+
+	private void setDependencies() {
+		mvNetherPortals = (MultiverseNetherPortals) getServer().getPluginManager().getPlugin("Multiverse-NetherPortals");
+		if (mvNetherPortals == null) {
+			getLogger().warning("Multiverse-NetherPortals not found.");
+		}
+		essentials = (Essentials) getServer().getPluginManager().getPlugin("Essentials");
+		if (essentials == null) {
+			getLogger().warning("Essentials not found.");
+		}
+	}
+
+	private void registerCommands() {
+		commandHandler = mvNetherPortals.getCore().getCommandHandler();
+		commandHandler.registerCommand(new HomesCommand(this));
+		for (com.onarandombox.commandhandler.Command c : commandHandler.getAllCommands()) {
+			if (c instanceof HelpCommand) {
+				c.addKey("mvnp");
+			}
+		}
 	}
 }
