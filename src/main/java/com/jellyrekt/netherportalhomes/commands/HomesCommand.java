@@ -49,10 +49,11 @@ public class HomesCommand extends NetherPortalCommand {
 				this.plugin.getCore().showNotMVWorldMessage(sender, worldName);
 				return;
 			}
-
-			sender.sendMessage(netherPortalHomes.toggleUseHomesFor(worldName) ?
-					worldName + " nether portals will now send players to homes." :
-					worldName + " nether portals will no longer send players to homes.");
+			boolean val = netherPortalHomes.toggleUseHomesFor(worldName);
+			sender.sendMessage(ChatColor.RED + "NOTE: " + ChatColor.WHITE + "Nether portals in " + mvWorld.getColoredWorldString() + " will "
+					+ (val ? "now" : "no longer")
+					+ " send players to their home."
+			);
 			return;
 		}
 		// Command issued in-game
