@@ -1,0 +1,5 @@
+name: NetherPortalHome
+main: com.jellyrekt.netherportalhome.NetherPortalHome
+version: 1.0-SNAPSHOT
+author: JellyRekt
+api-version: 1.13
