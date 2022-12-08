@@ -1,7 +1,9 @@
 package com.jellyrekt.netherportalhomes.commands;
 
 import com.jellyrekt.netherportalhomes.NetherPortalHomes;
-import com.onarandombox.MultiverseNetherPortals.MultiverseNetherPortals;
+import com.onarandombox.MultiverseCore.MVWorld;
+import com.onarandombox.MultiverseCore.api.MVWorldManager;
+import com.onarandombox.MultiverseCore.api.MultiverseWorld;
 import com.onarandombox.MultiverseNetherPortals.commands.NetherPortalCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -15,7 +17,6 @@ public class HomesCommand extends NetherPortalCommand {
 
 	public HomesCommand(NetherPortalHomes plugin) {
 		super(plugin.getMvNetherPortals());
-		netherPortalHomes = plugin;
 		setName("Toggles NP sending players to their home.");
 		setCommandUsage("/mvnp homes " + ChatColor.GOLD + "[WORLD]");
 		setArgRange(0, 1);
@@ -27,6 +28,8 @@ public class HomesCommand extends NetherPortalCommand {
 				"This will set a world's nether portals to send players to their home. It will override the world's link.",
 				PermissionDefault.OP);
 
+
+		netherPortalHomes = plugin;
 	}
 
 	@Override
@@ -39,11 +42,17 @@ public class HomesCommand extends NetherPortalCommand {
 				sender.sendMessage("No changes were made...");
 				return;
 			}
-			String world = args.get(0);
+			// Check for world registration with Multiverse
+			String worldName = args.get(0);
+			MultiverseWorld mvWorld = plugin.getCore().getMVWorldManager().getMVWorld(worldName);
+			if (mvWorld == null) {
+				this.plugin.getCore().showNotMVWorldMessage(sender, worldName);
+				return;
+			}
 
-			sender.sendMessage(netherPortalHomes.toggleUseHomesFor(world) ?
-					world + " nether portals will now send players to homes." :
-					world + " nether portals will no longer send players to homes.");
+			sender.sendMessage(netherPortalHomes.toggleUseHomesFor(worldName) ?
+					worldName + " nether portals will now send players to homes." :
+					worldName + " nether portals will no longer send players to homes.");
 			return;
 		}
 		// Command issued in-game
