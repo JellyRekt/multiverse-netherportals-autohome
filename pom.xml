@@ -13,4 +13,72 @@
 		<maven.compiler.target>17</maven.compiler.target>
 	</properties>
 
+	<build>
+		<plugins>
+			<!-- Maven -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<repositories>
+		<!-- Spigot-->
+		<repository>
+			<id>spigot-repo</id>
+			<url>https://hub.spigotmc.org/nexus/content/repositories/public/</url>
+		</repository>
+		<!-- Multiverse-NetherPortals -->
+		<repository>
+			<id>OnARandomBox</id>
+			<url>https://repo.onarandombox.com/content/groups/public/</url>
+		</repository>
+		<!-- EssentialsX -->
+		<repository>
+			<id>essentials-releases</id>
+			<url>https://repo.essentialsx.net/releases/</url>
+		</repository>
+		<!-- Paper -->
+		<repository>
+			<id>paper-repo</id>
+			<url>https://papermc.io/repo/repository/maven-public/</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<!-- Spigot -->
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot-api</artifactId>
+			<version>LATEST</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Multiverse-NetherPortals -->
+		<dependency>
+			<groupId>com.onarandombox.multiversenetherportals</groupId> <!-- Don't forget to replace this -->
+			<artifactId>Multiverse-NetherPortals</artifactId> <!-- Replace this as well -->
+			<version>4.2.2</version> <!-- This too -->
+			<scope>provided</scope>
+		</dependency>
+		<!-- EssentialsX -->
+		<dependency>
+			<groupId>net.essentialsx</groupId>
+			<artifactId>EssentialsX</artifactId>
+			<version>2.19.0</version>
+			<scope>provided</scope>
+			<exclusions>
+				<!-- https://github.com/EssentialsX/Essentials/issues/4554 -->
+				<exclusion>
+					<groupId>org.bstats</groupId>
+					<artifactId>bstats-bukkit</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
 </project>
