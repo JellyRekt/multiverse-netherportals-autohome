@@ -11,9 +11,11 @@ import org.bukkit.permissions.PermissionDefault;
 import java.util.List;
 
 public class HomesCommand extends NetherPortalCommand {
+	private NetherPortalHomes netherPortalHomes;
 
 	public HomesCommand(NetherPortalHomes plugin) {
 		super(plugin.getMvNetherPortals());
+		netherPortalHomes = plugin;
 		setName("Toggles NP sending players to their home.");
 		setCommandUsage("/mvnp homes " + ChatColor.GOLD + "[WORLD]");
 		setArgRange(0, 1);
@@ -37,6 +39,11 @@ public class HomesCommand extends NetherPortalCommand {
 				sender.sendMessage("No changes were made...");
 				return;
 			}
+			String world = args.get(0);
+
+			sender.sendMessage(netherPortalHomes.toggleUseHomesFor(world) ?
+					world + " nether portals will now send players to homes." :
+					world + " nether portals will no longer send players to homes.");
 			return;
 		}
 		// Command issued in-game

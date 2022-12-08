@@ -11,13 +11,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 public class NetherPortalHomes extends JavaPlugin {
 	private MultiverseNetherPortals mvNetherPortals;
 	private Essentials essentials;
 	private CommandHandler commandHandler;
-	private HashMap<String, Boolean> useHomesFor = new HashMap<>();
 
 	@Override
 	public void onEnable() {
@@ -33,9 +31,7 @@ public class NetherPortalHomes extends JavaPlugin {
 		}
 		ArrayList<String> allArgs = new ArrayList<>(Arrays.asList(args));
 		allArgs.add(0, command.getName());
-		getLogger().info("Command issued.");
-		this.commandHandler.locateAndRunCommand(sender, allArgs);
-		return true;
+		return this.commandHandler.locateAndRunCommand(sender, allArgs);
 	}
 
 	public MultiverseNetherPortals getMvNetherPortals() {
@@ -44,6 +40,18 @@ public class NetherPortalHomes extends JavaPlugin {
 
 	public Essentials getEssentials() {
 		return essentials;
+	}
+
+	public boolean getUseHomesFor(String world) {
+		String path = "worlds." + world + ".homes";
+		return getConfig().contains(path) && getConfig().getBoolean(path);
+	}
+
+	public boolean toggleUseHomesFor(String world) {
+		boolean val = !getUseHomesFor(world);
+		getConfig().set("worlds." + world + ".homes", val);
+		saveConfig();
+		return val;
 	}
 
 	private void setDependencies() {
