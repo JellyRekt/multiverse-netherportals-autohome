@@ -1,5 +1,10 @@
 name: NetherPortalHome
-main: com.jellyrekt.netherportalhome.NetherPortalHome
+main: com.jellyrekt.netherportalhomes.NetherPortalHomes
 version: 1.0-SNAPSHOT
 author: JellyRekt
 api-version: 1.13
+depend: ['Multiverse-NetherPortals', 'Essentials']
+commands:
+  mvnph:
+    description: Generic Multiverse-NetherPortals command
+    usage: /<command>
