@@ -1,5 +1,5 @@
-name: NetherPortalHome
-main: com.jellyrekt.netherportalhomes.NetherPortalHomes
+name: MVNP-Autohome
+main: com.jellyrekt.mvnpautohome.MVNPAutohome
 version: 1.0-SNAPSHOT
 author: JellyRekt
 api-version: 1.13

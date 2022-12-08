@@ -1,12 +1,9 @@
-package com.jellyrekt.netherportalhomes.commands;
+package com.jellyrekt.mvnpautohome.commands;
 
-import com.jellyrekt.netherportalhomes.NetherPortalHomes;
-import com.onarandombox.MultiverseCore.MVWorld;
-import com.onarandombox.MultiverseCore.api.MVWorldManager;
+import com.jellyrekt.mvnpautohome.MVNPAutohome;
 import com.onarandombox.MultiverseCore.api.MultiverseWorld;
 import com.onarandombox.MultiverseNetherPortals.commands.NetherPortalCommand;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
@@ -14,23 +11,23 @@ import org.bukkit.permissions.PermissionDefault;
 import java.util.List;
 import java.util.logging.Level;
 
-public class HomesCommand extends NetherPortalCommand {
-	private NetherPortalHomes netherPortalHomes;
+public class AutohomeCommand extends NetherPortalCommand {
+	private MVNPAutohome mvnpAutohome;
 
-	public HomesCommand(NetherPortalHomes plugin) {
+	public AutohomeCommand(MVNPAutohome plugin) {
 		super(plugin.getMvNetherPortals());
 		setName("Toggles NP sending players to their home.");
-		setCommandUsage("/mvnp homes " + ChatColor.GOLD + "[WORLD]");
+		setCommandUsage("/mvnp autohome " + ChatColor.GOLD + "[WORLD]");
 		setArgRange(0, 1);
-		addKey("mvnp homes");
+		addKey("mvnp autohome");
 		addKey("mvnph");
-		addCommandExample("/mvnp homes");
+		addCommandExample("/mvnp autohome");
 		addCommandExample("/mvnph world_nether");
-		setPermission("multiverse.netherportals.homes",
+		setPermission("multiverse.netherportals.autohome",
 				"This will set a world's nether portals to send players to their home. It will override the world's link.",
 				PermissionDefault.OP);
 
-		netherPortalHomes = plugin;
+		mvnpAutohome = plugin;
 	}
 
 	@Override
@@ -60,7 +57,7 @@ public class HomesCommand extends NetherPortalCommand {
 			this.plugin.getCore().showNotMVWorldMessage(sender, worldName);
 			return;
 		}
-		sender.sendMessage(getToggleMessage(mvWorld, netherPortalHomes.toggleUseHomesFor(worldName)));
+		sender.sendMessage(getToggleMessage(mvWorld, mvnpAutohome.toggleAutohome(worldName)));
 	}
 
 	private String getToggleMessage(MultiverseWorld mvWorld, boolean val) {
@@ -71,7 +68,7 @@ public class HomesCommand extends NetherPortalCommand {
 
 	private String getPlayerLogMessage(Player player, String world) {
 		return player.getName() + " "
-				+ (netherPortalHomes.getUseHomesFor(world) ? "ENABLED" : "DISABLED")
+				+ (mvnpAutohome.getAutohome(world) ? "ENABLED" : "DISABLED")
 				+ " auto-home for Nether Portals in " + world;
 	}
 }
