@@ -48,7 +48,6 @@ public class AutohomeCommand extends NetherPortalCommand {
 		Player player = (Player) sender;
 		String world = args.size() < 1 ? player.getWorld().getName() : args.get(0);
 		toggleUseHomes(sender, world);
-		plugin.log(Level.INFO, getPlayerLogMessage(player, world));
 	}
 
 	private void toggleUseHomes(CommandSender sender, String worldName) {
@@ -58,6 +57,7 @@ public class AutohomeCommand extends NetherPortalCommand {
 			return;
 		}
 		sender.sendMessage(getToggleMessage(mvWorld, mvnpAutohome.toggleAutohome(worldName)));
+		plugin.log(Level.INFO, getLogMessage(sender, worldName));
 	}
 
 	private String getToggleMessage(MultiverseWorld mvWorld, boolean val) {
@@ -66,9 +66,9 @@ public class AutohomeCommand extends NetherPortalCommand {
 				+ " send players to their home.";
 	}
 
-	private String getPlayerLogMessage(Player player, String world) {
-		return player.getName() + " "
-				+ (mvnpAutohome.getAutohome(world) ? "ENABLED" : "DISABLED")
-				+ " auto-home for Nether Portals in " + world;
+	private String getLogMessage(CommandSender sender, String world) {
+		return sender.getName() + " "
+				+ (mvnpAutohome.getAutohome(world) ? "enabled" : "disabled")
+				+ " auto-home for nether portals in " + world;
 	}
 }
