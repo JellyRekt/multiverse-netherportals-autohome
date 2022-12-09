@@ -2,6 +2,7 @@ package com.jellyrekt.mvnpautohome;
 
 import com.earth2me.essentials.Essentials;
 import com.jellyrekt.mvnpautohome.commands.AutohomeCommand;
+import com.jellyrekt.mvnpautohome.listeners.PlayerListener;
 import com.onarandombox.MultiverseCore.commands.HelpCommand;
 import com.onarandombox.MultiverseNetherPortals.MultiverseNetherPortals;
 import com.onarandombox.commandhandler.CommandHandler;
@@ -21,6 +22,7 @@ public class MVNPAutohome extends JavaPlugin {
 	public void onEnable() {
 		setDependencies();
 		registerCommands();
+		getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
 	}
 
 	@Override
